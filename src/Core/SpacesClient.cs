@@ -36,7 +36,7 @@ namespace SpacesClient.Core
             await client.CopyObjectAsync(
                 bucketName,
                 file.Key,
-                $@"{_options.BucketName}/deleted/{DateTime.UtcNow:yyyy/MM}",
+                $@"{_options.BucketName}/{file.CreatedAt:yyyy/MM}/deleted",
                 file.Key,
                 cancellationToken);
         }
@@ -47,7 +47,7 @@ namespace SpacesClient.Core
             using var transferUtility = new TransferUtility(client);
             var transferRequest = new TransferUtilityUploadRequest
             {
-                BucketName = $@"{_options.BucketName}/{DateTime.UtcNow:yyyy/MM}",
+                BucketName = $@"{_options.BucketName}/{createFile.CreatedAt:yyyy/MM}",
                 InputStream = createFile.Stream,
                 AutoCloseStream = false,
                 ContentType = createFile.ContentType,
