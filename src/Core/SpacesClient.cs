@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Amazon.Runtime;
 using Amazon.S3;
+using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using SpacesClient.Core.Abstractions;
 
@@ -11,50 +12,42 @@ namespace SpacesClient.Core
 {
     public class SpacesClient : ISpacesClient
     {
-        private readonly string _bucketName;
-        private readonly AmazonS3Config _config;
-        private readonly AWSCredentials _credentials;
+        private readonly IS3ClientFactory _factory;
+        private readonly ISpacesOptions _options;
 
-        public SpacesClient(ISpacesOptions options)
+        public SpacesClient(IS3ClientFactory factory, ISpacesOptions options)
         {
-            _credentials = new BasicAWSCredentials(
-                options.AccessKey,
-                options.SecretKey);
-            _config = new AmazonS3Config
-            {
-                ServiceURL = options.ServiceUrl
-            };
-            _bucketName = options.BucketName;
+            _factory = factory;
+            _options = options;
         }
 
         public async Task<Stream> DownloadAsync(ISpaceFile file, CancellationToken cancellationToken)
         {
-            using var client = new AmazonS3Client(_credentials, _config);
-            var response = await client.GetObjectAsync($@"{_bucketName}/{file.CreatedAt:yyyy/MM}", file.Key,
+            using var client = _factory.Create(_options);
+            var response = await client.GetObjectAsync($@"{_options.BucketName}/{file.CreatedAt:yyyy/MM}", file.Key,
                 cancellationToken);
             return response.ResponseStream;
         }
 
         public async Task DeleteAsync(ISpaceFile file, CancellationToken cancellationToken)
         {
-            var bucketName = $@"{_bucketName}/{file.CreatedAt:yyyy/MM}";
-            using var client = new AmazonS3Client(_credentials, _config);
+            using var client = _factory.Create(_options);
+            var bucketName = $@"{_options.BucketName}/{file.CreatedAt:yyyy/MM}";
             await client.CopyObjectAsync(
                 bucketName,
                 file.Key,
-                $@"{_bucketName}/deleted/{DateTime.UtcNow:yyyy/MM}",
+                $@"{_options.BucketName}/deleted/{DateTime.UtcNow:yyyy/MM}",
                 file.Key,
                 cancellationToken);
         }
 
         public async Task UploadAsync(ICreateSpaceFile createFile, CancellationToken cancellationToken)
         {
-            using var client = new AmazonS3Client(_credentials, _config);
-
+            using var client = _factory.Create(_options);
             using var transferUtility = new TransferUtility(client);
             var transferRequest = new TransferUtilityUploadRequest
             {
-                BucketName = $@"{_bucketName}/{DateTime.UtcNow:yyyy/MM}",
+                BucketName = $@"{_options.BucketName}/{DateTime.UtcNow:yyyy/MM}",
                 InputStream = createFile.Stream,
                 AutoCloseStream = false,
                 ContentType = createFile.ContentType,
