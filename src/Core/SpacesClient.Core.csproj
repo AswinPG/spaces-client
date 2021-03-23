@@ -1,7 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Title>SpacesClient.Core</Title>
+    <Authors>tiagor87@gmail.com</Authors>
+    <Description>A very simple SDK to integrate with DigitalOcean Spaces.</Description>
+    <ProjectGuid>{D41177C5-7A65-4A54-BB80-91914B8214D9}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
