@@ -1,16 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Title>SpacesClient.Core</Title>
-    <Authors>tiagor87@gmail.com, Aswin PG</Authors>
-    <Description>A very simple SDK to integrate with DigitalOcean Spaces.</Description>
-    <ProjectGuid>{D41177C5-7A65-4A54-BB80-91914B8214D9}</ProjectGuid>
-  </PropertyGroup>
-
-  <ItemGroup>
-	  <PackageReference Include="AWSSDK.Core" Version="3.7.302.13" />
-	  <PackageReference Include="AWSSDK.S3" Version="3.7.305.28" />
-  </ItemGroup>
+	<PropertyGroup>
+		<Version>1.0.1</Version>
+		<TargetFramework>net8.0</TargetFramework>
+		<Title>E0.SPacesClient</Title>
+		<Authors>tiagor87@gmail.com, Aswin PG</Authors>
+		<Description>A very simple SDK to integrate with DigitalOcean Spaces.</Description>
+		<ProjectGuid>{D41177C5-7A65-4A54-BB80-91914B8214D9}</ProjectGuid>
+		<PackageProjectUrl>https://github.com/AswinPG/spaces-client</PackageProjectUrl>
+		<PackageId>E0.SpacesClient</PackageId>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="AWSSDK.Core" Version="3.7.302.13" />
+		<PackageReference Include="AWSSDK.S3" Version="3.7.305.28" />
+	</ItemGroup>
 
 </Project>
