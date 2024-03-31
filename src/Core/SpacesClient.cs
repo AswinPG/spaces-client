@@ -88,17 +88,16 @@ namespace SpacesClient.Core
                     Console.WriteLine($"Uploaded {e.TransferredBytes} bytes out of {e.TotalBytes}");
                     progressAction?.Invoke(e.PercentDone);
                 }
-                return "https://" + _options.BucketName + ".sgp1.cdn.digitaloceanspaces.com/" + createFile.Key;
+                return "https://" + _options.BucketName + _options.CdnUrl + createFile.Key;
             }
             catch (Exception ex)
             {
                 return null;
             }
-            
         }
         public async Task<string> DeleteFromPathAsync(string url)
         {
-            string key = url.Split(_options.BucketName + ".sgp1.cdn.digitaloceanspaces.com/")[1];
+            string key = url.Split(_options.BucketName + _options.CdnUrl)[1];
             return await DeleteAsync(_options.BucketName, key);
         }
         async Task<string> DeleteAsync(string bucket, string key)

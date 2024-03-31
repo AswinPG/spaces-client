@@ -11,13 +11,15 @@ namespace SpacesClient.Core.Implementations
         public string ServiceUrl { get; set; }
 
         public string BucketName { get; set; }
+        public string CdnUrl { get; set; }
 
-        public SpaceOptions(string accesskey, string secretkey, string serviceurl, string bucketname)
+        public SpaceOptions(string accesskey, string secretkey, string serviceurl, string bucketname, string cdnUrl)
         {
             AccessKey = accesskey;
             SecretKey = secretkey;
             ServiceUrl = serviceurl;
             BucketName = bucketname;
+            CdnUrl = cdnUrl;
         }
     }
 }
